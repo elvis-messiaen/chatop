@@ -13,19 +13,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private  String name;
+    @Column(unique = true)
+    private  String username;
 
     private String email;
 
     private String password;
 
+    private String role;
+
     private Date createdAt;
 
     private Date updatedAt;
 
-    public User(int id, String name, String email, String password, Date createdAt, Date updatedAt) {
+
+    public User(int id, String username, String email, String password, Date createdAt, Date updatedAt) {
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.createdAt = createdAt;
@@ -63,12 +67,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Date getUpdatedAt() {
@@ -87,13 +91,22 @@ public class User {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
