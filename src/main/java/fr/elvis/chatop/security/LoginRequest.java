@@ -1,4 +1,36 @@
 package fr.elvis.chatop.security;
 
+import jakarta.validation.constraints.NotBlank;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Requête de connexion")
 public class LoginRequest {
+    private static final Logger logger = LoggerFactory.getLogger(LoginRequest.class);
+
+    @Schema(description = "Nom d'utilisateur", example = "user1")
+    @NotBlank
+    private String username;
+
+    @Schema(description = "Mot de passe", example = "user")
+    @NotBlank
+    private String password;
+
+    // Getters et setters
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

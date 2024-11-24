@@ -1,4 +1,4 @@
-package fr.elvis.chatop.security.auth;
+package fr.elvis.chatop.DTO;
 
 public class AuthDTO {
     public record LoginRequest(String username, String password) {
