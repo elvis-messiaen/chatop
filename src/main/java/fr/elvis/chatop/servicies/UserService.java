@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -60,17 +62,54 @@ public class UserService {
     }
 
     public UserDTO saveUser(UserDTO userDTO) {
-        UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(userDTO.getUsername());
+        userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userEntity.setCreatedAt(new Date());
+        userEntity.setUpdatedAt(new Date());
+
+        Set<Role> roles = userDTO.getRole().stream()
+                .map(roleDTO -> roleRepository.findById(roleDTO.getId())
+                        .orElseThrow(() -> new RuntimeException("Role not found")))
+                .collect(Collectors.toSet());
+        userEntity.setRole(roles);
+
+        Set<Rental> rentals = userDTO.getRentals().stream()
+                .map(rentalDTO -> {
+                    Rental rental = rentalRepository.findById(rentalDTO.getId())
+                            .orElseThrow(() -> new RuntimeException("Rental not found"));
+                    rental.setCreated_at(new Date());
+                    rental.setUpdated_at(new Date());
+                    return rental;
+                })
+                .collect(Collectors.toSet());
+        userEntity.setRentals(rentals);
+
+        Set<MessagesEntity> messages = userDTO.getMessages().stream()
+                .map(messageDTO -> {
+                    MessagesEntity messageEntity = messageRepository.findById(messageDTO.getId())
+                            .orElseThrow(() -> new RuntimeException("Message not found"));
+                    messageEntity.setRental(rentalRepository.findById(messageDTO.getRental().getId())
+                            .orElseThrow(() -> new RuntimeException("Rental not found")));
+                    messageEntity.setCreatedAt(new Date());
+                    messageEntity.setUpdatedAt(new Date());
+                    return messageEntity;
+                }).collect(Collectors.toSet());
+        userEntity.setMessages(messages);
+
         userEntity = userRepository.save(userEntity);
         return modelMapper.map(userEntity, UserDTO.class);
     }
+
+
+
+
 
     public UserDTO updateUser(int id, UserDTO userDTO) {
         if (userRepository.existsById(id)) {
             UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
 
-            // Vérifier et associer les rôles
             Set<Role> roles = userDTO.getRole().stream()
                     .map(roleDTO -> {
                         return roleRepository.findById(roleDTO.getId())
@@ -78,7 +117,6 @@ public class UserService {
                     }).collect(Collectors.toSet());
             userEntity.setRole(roles);
 
-            // Vérifier et associer les locations
             Set<Rental> rentals = userDTO.getRentals().stream()
                     .map(rentalDTO -> {
                         return rentalRepository.findById(rentalDTO.getId())
@@ -86,7 +124,6 @@ public class UserService {
                     }).collect(Collectors.toSet());
             userEntity.setRentals(rentals);
 
-            // Vérifier et associer les messages
             Set<MessagesEntity> messages = userDTO.getMessages().stream()
                     .map(messageDTO -> {
                         MessagesEntity messageEntity = messageRepository.findById(messageDTO.getId())

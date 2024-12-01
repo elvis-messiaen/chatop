@@ -32,7 +32,7 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Accès refusé", content = @Content)
     })
     @GetMapping("/user")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @PreAuthorize ("hasAuthority('ADMIN')")
     public List<UserDTO> getUser() {
         return userService.getAllUsers();
     }
@@ -45,6 +45,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Utilisateur non trouvé", content = @Content),
             @ApiResponse(responseCode = "403", description = "Accès refusé", content = @Content)
     })
+
     @GetMapping("/user/{id}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public Optional<UserDTO> getUserById(@PathVariable int id) {

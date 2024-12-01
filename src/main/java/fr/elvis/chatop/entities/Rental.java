@@ -87,6 +87,14 @@ public class Rental {
         this.name = name;
     }
 
+    public Set<MessagesEntity> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<MessagesEntity> messages) {
+        this.messages = messages;
+    }
+
     public String getPicture() {
         return picture;
     }

@@ -3,8 +3,6 @@ package fr.elvis.chatop.configuration;
 
 import fr.elvis.chatop.repository.UserRepository;
 import fr.elvis.chatop.security.auth.AuthUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

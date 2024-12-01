@@ -79,6 +79,7 @@ public class RentalController {
         return rentalService.updateRental(id, rentalDTO);
     }
 
+
     @Operation(summary = "Supprimer une location", description = "Supprime une location par son ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Location supprimée avec succès", content = @Content),

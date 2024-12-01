@@ -3,6 +3,7 @@ package fr.elvis.chatop.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "messages")
@@ -16,10 +17,10 @@ public class MessagesEntity {
     private String message;
 
     @Column(name = "created_at")
-    private Timestamp createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    private Date updatedAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rental_id")
@@ -38,7 +39,6 @@ public class MessagesEntity {
         this.createdAt = createdAt;
         this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
-
 
     public MessagesEntity() {
 
@@ -67,21 +67,19 @@ public class MessagesEntity {
         this.message = message;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-
 }
