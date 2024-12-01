@@ -64,8 +64,6 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/api/role").hasAuthority("ADMIN");
                     auth.anyRequest().authenticated();
                 })
-                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(customUserDetailsService)
                 .build();

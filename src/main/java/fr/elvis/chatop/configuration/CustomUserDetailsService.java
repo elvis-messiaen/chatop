@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
-
     @Autowired
     private UserRepository userRepository;
 
@@ -28,7 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .map(AuthUser::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found: " + username));
 
-        log.debug("User loaded: {}", user);
         return user;
 
     }
