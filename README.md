@@ -44,6 +44,7 @@ Pour s'assurer que le fichier `.env` n'est pas poussé dans le dépôt, ajoutez-
 openssl enc -d -aes-256-cbc -pbkdf2 -in .env.encrypted -out .env -k "VOTRE_CLE_DE_DECHIFFREMENT" -md sha256
 Vous pouvez maintenant accéder aux variables d'environnement enregistrées dans le fichier `.env`.
 # remplacer les valeurs dans le propoerties avec les valeurs de votre fichier .env
+Il faut remplacer les valeurs masquées dasn le properties (${valeurMasquée}) par les valeurs de votre fichier .env decryted
 
 Vous pouvez maintenant lancé votre application
 
