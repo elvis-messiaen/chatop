@@ -1,6 +1,7 @@
 package fr.elvis.chatop.controller;
 
 import fr.elvis.chatop.DTO.UserDTO;
+import fr.elvis.chatop.DTO.UserResponseDTO;
 import fr.elvis.chatop.servicies.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
 @Tag(name = "Gestion des Utilisateurs", description = "APIs REST liées à l'entité Utilisateur")
 public class UserController {
 
@@ -41,15 +42,15 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Utilisateur trouvé",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDTO.class))}),
+                            schema = @Schema(implementation = UserResponseDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Utilisateur non trouvé", content = @Content),
             @ApiResponse(responseCode = "403", description = "Accès refusé", content = @Content)
     })
-
     @GetMapping("/user/{id}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public Optional<UserDTO> getUserById(@PathVariable int id) {
-        return Optional.of(userService.getUserById(id));
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable int id) {
+        UserResponseDTO userResponseDTO = userService.getUserById(id);
+        return ResponseEntity.ok(userResponseDTO);
     }
 
     @Operation(summary = "Créer un nouvel utilisateur", description = "Crée un nouvel utilisateur")

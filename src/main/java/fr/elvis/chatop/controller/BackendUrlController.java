@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 @RestController
 public class BackendUrlController {
-    private Logger logger = Logger.getLogger(BackendUrlController.class.getName());
 
     @GetMapping("/api/backend-url")
     public String getBackendUrl(HttpServletRequest request) {
@@ -16,7 +15,6 @@ public class BackendUrlController {
         int serverPort = request.getServerPort();
         String contextPath = request.getContextPath();
         String backendUrl = scheme + "://" + serverName + ":" + serverPort + contextPath;
-        logger.info("Backend URL: " + backendUrl);
         return backendUrl;
     }
 }

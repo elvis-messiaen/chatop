@@ -10,14 +10,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
 @Tag(name = "Gestion des Locations", description = "APIs REST liées à l'entité Location")
 public class RentalController {
 
@@ -31,7 +34,7 @@ public class RentalController {
                             array = @ArraySchema(schema = @Schema(implementation = RentalDTO.class)))}),
             @ApiResponse(responseCode = "403", description = "Accès refusé", content = @Content)
     })
-    @GetMapping("/rental")
+    @GetMapping("/rentals")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public List<RentalDTO> getAllRentals() {
         return rentalService.getAllRentals();
@@ -39,46 +42,58 @@ public class RentalController {
 
     @Operation(summary = "Obtenir la location par ID", description = "Récupère une location par son ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Location trouvée",
+            @ApiResponse(responseCode = "200", description = "Ok",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = RentalDTO.class))}),
-            @ApiResponse(responseCode = "404", description = "Location non trouvée", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Accès refusé", content = @Content)
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
-    @GetMapping("/rental/{id}")
+    @GetMapping("/rentals/{id}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public Optional<RentalDTO> getRentalById(@PathVariable int id) {
-        return Optional.of(rentalService.getRentalById(id));
+    public ResponseEntity<?> getRentalById(@PathVariable int id) {
+        Optional<RentalDTO> rentalDTO = rentalService.getRentalById(id);
+        if (rentalDTO.isPresent()) {
+            return ResponseEntity.ok(rentalDTO.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(""); // Empty body
+        }
     }
 
     @Operation(summary = "Créer une nouvelle location", description = "Crée une nouvelle location")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Location créée avec succès",
+            @ApiResponse(responseCode = "200", description = "Location créée avec succès",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = RentalDTO.class))}),
+                            schema = @Schema(implementation = Map.class))}),
             @ApiResponse(responseCode = "400", description = "Requête invalide", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
             @ApiResponse(responseCode = "403", description = "Accès refusé", content = @Content)
     })
-    @PostMapping("/rental")
+    @PostMapping("/rentals")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public RentalDTO createRental(@RequestBody RentalDTO rentalDTO) {
-        return rentalService.saveRental(rentalDTO);
+    public ResponseEntity<?> createRental(@RequestBody RentalDTO rentalDTO) {
+        rentalService.saveRental(rentalDTO);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Rental created !");
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "Mettre à jour une location", description = "Met à jour une location par son ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Location mise à jour avec succès",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = RentalDTO.class))}),
+                            schema = @Schema(implementation = Map.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
             @ApiResponse(responseCode = "404", description = "Location non trouvée", content = @Content),
             @ApiResponse(responseCode = "403", description = "Accès refusé", content = @Content)
     })
-    @PutMapping("/rental/{id}")
+    @PutMapping("/rentals/{id}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public RentalDTO updateRental(@PathVariable int id, @RequestBody RentalDTO rentalDTO) {
-        return rentalService.updateRental(id, rentalDTO);
+    public ResponseEntity<?> updateRental(@PathVariable int id, @RequestBody RentalDTO rentalDTO) {
+        rentalService.updateRental(id, rentalDTO);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Rental updated !");
+        return ResponseEntity.ok(response);
     }
-
 
     @Operation(summary = "Supprimer une location", description = "Supprime une location par son ID")
     @ApiResponses(value = {
@@ -86,7 +101,7 @@ public class RentalController {
             @ApiResponse(responseCode = "404", description = "Location non trouvée", content = @Content),
             @ApiResponse(responseCode = "403", description = "Accès refusé", content = @Content)
     })
-    @DeleteMapping("/rental/{id}")
+    @DeleteMapping("/rentals/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteRental(@PathVariable int id) {
         rentalService.deleteRental(id);

@@ -3,7 +3,6 @@ package fr.elvis.chatop.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,7 +20,10 @@ public class Rental {
     private String picture;
     private String description;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updated_at;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -31,6 +33,8 @@ public class Rental {
 
     @OneToMany(mappedBy = "rental")
     private Set<MessagesEntity> messages;
+
+    public Rental() {}
 
     public Rental(Date created_at, String description, int id, String name, String picture, double price, UserEntity proprietaire, double surface, Date updated_at) {
         this.created_at = created_at;
@@ -44,15 +48,15 @@ public class Rental {
         this.updated_at = updated_at;
     }
 
-    public Rental() {
+    @PrePersist
+    public void onCreate() {
+        created_at = new Date();
+        updated_at = new Date();
     }
 
-    public UserEntity getProprietaire() {
-        return proprietaire;
-    }
-
-    public void setProprietaire(UserEntity proprietaire) {
-        this.proprietaire = proprietaire;
+    @PreUpdate
+    public void onUpdate() {
+        updated_at = new Date();
     }
 
     public Date getCreated_at() {
@@ -79,20 +83,20 @@ public class Rental {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Set<MessagesEntity> getMessages() {
         return messages;
     }
 
     public void setMessages(Set<MessagesEntity> messages) {
         this.messages = messages;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPicture() {
@@ -109,6 +113,14 @@ public class Rental {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public UserEntity getProprietaire() {
+        return proprietaire;
+    }
+
+    public void setProprietaire(UserEntity proprietaire) {
+        this.proprietaire = proprietaire;
     }
 
     public double getSurface() {

@@ -26,4 +26,10 @@ public class LoginRequestDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public static record TokenResponse(String token) {
+    }
+
+    public static record ErrorResponse(String message) {
+    }
 }

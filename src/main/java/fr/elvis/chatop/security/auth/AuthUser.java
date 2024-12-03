@@ -13,9 +13,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class AuthUser extends UserEntity implements UserDetails {
-
-    private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
-
     private final UserEntity userEntity;
 
     public AuthUser(UserEntity userEntity) {
@@ -41,7 +38,6 @@ public class AuthUser extends UserEntity implements UserDetails {
         Set<GrantedAuthority> authorities = userEntity.getRole().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toSet());
-        log.debug("Authorities for user {}: {}", userEntity.getUsername(), authorities);
         return authorities;
     }
 

@@ -31,7 +31,6 @@ public class UserRoleService {
         UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Convertir les RoleDTO en Set<Role>
         Set<Integer> roleIds = roleDTOS.stream().map(RoleDTO::getId).collect(Collectors.toSet());
         Set<Role> roles = new HashSet<>();
         roleRepository.findAllById(roleIds).forEach(roles::add);

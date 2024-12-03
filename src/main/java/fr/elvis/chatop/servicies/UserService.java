@@ -1,6 +1,7 @@
 package fr.elvis.chatop.servicies;
 
 import fr.elvis.chatop.DTO.UserDTO;
+import fr.elvis.chatop.DTO.UserResponseDTO;
 import fr.elvis.chatop.entities.Role;
 import fr.elvis.chatop.entities.Rental;
 import fr.elvis.chatop.entities.MessagesEntity;
@@ -14,8 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -56,10 +55,30 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDTO getUserById(int id) {
+
+
+
+
+
+    public UserResponseDTO getUserById(int id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        return modelMapper.map(userEntity, UserDTO.class);
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(userEntity.getId());
+        userResponseDTO.setUsername(userEntity.getUsername());
+        userResponseDTO.setEmail(userEntity.getEmail());
+        userResponseDTO.setCreatedAt(userEntity.getCreatedAt() != null ? userEntity.getCreatedAt() : new Date());
+        userResponseDTO.setUpdatedAt(userEntity.getUpdatedAt() != null ? userEntity.getUpdatedAt() : new Date());
+        return userResponseDTO;
     }
+
+
+
+
+
+
+
+
+
 
     public UserDTO saveUser(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
@@ -101,10 +120,6 @@ public class UserService {
         userEntity = userRepository.save(userEntity);
         return modelMapper.map(userEntity, UserDTO.class);
     }
-
-
-
-
 
     public UserDTO updateUser(int id, UserDTO userDTO) {
         if (userRepository.existsById(id)) {
@@ -165,8 +180,6 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
     }
-
-
 
     public boolean hasRole(String userName, String roleName) {
         String query = "SELECT COUNT(ur) FROM UserEntity u JOIN u.role ur WHERE u.username = :userName AND ur.name = :roleName";

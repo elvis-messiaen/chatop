@@ -4,23 +4,16 @@
 
 Chatop est une application construite avec Spring Boot qui utilise Spring Security pour la gestion de la sécurité. L'application utilise JWT pour l'authentification et intègre Swagger pour la documentation de l'API.
 
-## Configuration
+## Configuration des Variables d'Environnement
+### Étape 1 : Obtenez la Clé de Déchiffrement
+La clé de déchiffrement vous sera fournie séparément par l'administrateur du projet. Assurez-vous de la garder en sécurité, car elle sera nécessaire pour déchiffrer le fichier `.env.encrypted`.
+### Étape 2 : Utilisez le Script de Déchiffrement :
+
+1. Dans le terminal, exécutez la commande suivante pour déchiffrer le fichier `.env.encrypted` :
+
+   openssl enc -d -aes-256-cbc -pbkdf2 -in .env.encrypted -out .env -k "VOTRE_CLE_DE_DECHIFFREMENT" -md sha256
 
 ### Propriétés Spring
-
-```properties
-spring.application.name=chatop
-spring.datasource.url=jdbc:mysql://localhost:3306/chatop
-spring.datasource.username=elvis
-spring.datasource.password=1234
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=false
-
-security.jwt.token.secret-key=myverysecuresecretkeywhichis256bitslong!!
-chatop.app.jwtExpirationMs=86400000
-
-springdoc.swagger-ui.enabled=true
-springdoc.swagger-ui.path=/swagger-ui/index.html
 
 Installation
 Pré-requis
@@ -29,11 +22,42 @@ Docker
 Maven
 Installation des Dépendances
 
-## Lancer l'application avec docker
-## généer l'image docker MysSQL
-docker run --name mon_mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_USER=elvis -e MYSQL_PASSWORD=1234 -e MYSQL_DATABASE=chatop -p 3306:3306 -d mysql
+## Installation de docker sur votre machine :
+https://docs.docker.com/get-docker/
 
-## Installation de docker 
+# Installation de Docker
+
+## Windows
+
+1. Téléchargez l'installateur de Docker Desktop depuis [Docker Hub](https://www.docker.com/products/docker-desktop).
+2. Suivez les instructions de l'installateur pour compléter l'installation.
+3. Redémarrez votre ordinateur si nécessaire.
+4. Lancez Docker Desktop depuis le menu Démarrer.
+
+## MacOS
+
+1. Téléchargez Docker Desktop pour Mac depuis [Docker Hub](https://www.docker.com/products/docker-desktop).
+2. Ouvrez le fichier téléchargé et suivez les instructions pour déplacer Docker dans le dossier Applications.
+3. Lancez Docker depuis le dossier Applications.
+4. Suivez les instructions à l'écran pour terminer la configuration initiale.
+
+## Linux
+
+1. Suivez les instructions spécifiques à votre distribution Linux sur [la documentation Docker](https://docs.docker.com/engine/install/).
+
+## Vérification
+
+Pour vérifier que Docker est correctement installé, ouvrez un terminal et tapez la commande suivante :
+docker --version
+
+Pour lancer une instance MySQL avec Docker, utilisez la commande suivante :
+docker run --name mon_mysql -e MYSQL_ROOT_PASSWORD=${DB_PASSWORD} -e MYSQL_USER=${DB_USERNAME} -e MYSQL_PASSWORD=${DB_PASSWORD} -e MYSQL_DATABASE=chatop -p 3306:3306 -d mysql
+
+Remplacement des variables
+Remplacez ${DB_PASSWORD} par le mot de passe que vous avez obtenu lors du décryptage du fichier .env.
+Remplacez ${DB_USERNAME} par le nom d'utilisateur que vous avez obtenu lors du décryptage du fichier .env.
+
+
 ## cloner le projet
 depuis vs code ou tous autre ide :
 git clone https://github.com/elvis-messiaen/chatop.git
@@ -212,15 +236,17 @@ Rubrique Locations :
 •	POST /api/rental
 •	Json
 {
-  "id": 0,
-  "name": "Nouvelle location",
-  "surface": 60,
-  "price": 800,
-  "picture": "https://example.com/pictures/newrental.jpg",
-  "description": "Une nouvelle description pour la location.",
-  "createdAt": "2024-12-01T11:56:58.583Z",
-  "updatedAt": "2024-12-01T11:56:58.583Z"
+"id": 1,
+"name": "string",
+"surface": 0,
+"price": 0,
+"picture": "string",
+"description": "string",
+"created_at": "2024/12/03",
+"updated_at": "2024/12/03",
+"proprietaire_id": 1
 }
+
 
 
 •	POST /api/role 

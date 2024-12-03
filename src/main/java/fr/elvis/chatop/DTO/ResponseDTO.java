@@ -1,14 +1,17 @@
 package fr.elvis.chatop.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class ResponseDTO {
     private String message;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String token;
 
     public ResponseDTO() {}
 
-    public ResponseDTO(String message, String token) {
+    public ResponseDTO(String message) {
         this.message = message;
-        this.token = token;
     }
 
     public String getMessage() {

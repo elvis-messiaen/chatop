@@ -1,26 +1,31 @@
 package fr.elvis.chatop.servicies;
 
 import fr.elvis.chatop.DTO.RegisterRequestDTO;
+import fr.elvis.chatop.DTO.UserResponseDTO;
 import fr.elvis.chatop.entities.Role;
 import fr.elvis.chatop.entities.UserEntity;
 import fr.elvis.chatop.repository.RoleRepository;
 import fr.elvis.chatop.repository.UserRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class UserAuthService {
-
-    private static final Logger log = LoggerFactory.getLogger(UserAuthService.class);
-
     @Autowired
     private UserRepository userRepository;
 
@@ -30,16 +35,15 @@ public class UserAuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Transactional
-    public void register(RegisterRequestDTO userDTO) {
-        log.info("Tentative d'enregistrement de l'utilisateur : {}", userDTO.getUsername());
+    @Value("${security.jwt.token.secret-key}")
+    private String secretKey;
 
+    @Transactional
+    public String register(RegisterRequestDTO userDTO) {
         if (userRepository.existsByUsername(userDTO.getUsername())) {
-            log.error("Le nom d'utilisateur {} est déjà pris", userDTO.getUsername());
             throw new RuntimeException("Le nom d'utilisateur est déjà pris");
         }
         if (userRepository.existsByEmail(userDTO.getEmail())) {
-            log.error("L'email {} est déjà pris", userDTO.getEmail());
             throw new RuntimeException("L'email est déjà pris");
         }
 
@@ -58,7 +62,32 @@ public class UserAuthService {
         userEntity.setRole(roles);
 
         userRepository.save(userEntity);
-        log.info("Utilisateur {} enregistré avec succès", userDTO.getUsername());
+
+        String token = generateToken(userEntity);
+        return token;
+    }
+
+    private String generateToken(UserEntity userEntity) {
+        return Jwts.builder()
+                .setSubject(userEntity.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public UserResponseDTO getUserInfo(String username) {
+        Optional<UserEntity> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            UserResponseDTO userResponse = new UserResponseDTO();
+            userResponse.setId(user.getId());
+            userResponse.setUsername(user.getUsername());
+            userResponse.setEmail(user.getEmail());
+            userResponse.setCreatedAt(user.getCreatedAt());
+            userResponse.setUpdatedAt(user.getUpdatedAt());
+            return userResponse;
+        }
+        return null;
     }
 }
-

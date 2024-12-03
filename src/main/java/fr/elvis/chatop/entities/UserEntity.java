@@ -159,7 +159,6 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
-    // Méthode toString modifiée pour éviter les références croisées
     @Override
     public String toString() {
         return "User{" +
@@ -168,7 +167,7 @@ public class UserEntity implements UserDetails {
                 ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                ", roles=" + role.stream().map(Role::getName).toList() + // Affiche seulement les noms des rôles
+                ", roles=" + role.stream().map(Role::getName).toList() +
                 '}';
     }
 }

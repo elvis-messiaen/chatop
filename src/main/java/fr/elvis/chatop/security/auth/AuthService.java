@@ -17,9 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
-
-    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
-
     @Autowired
     private JwtConfig jwtConfig;
 

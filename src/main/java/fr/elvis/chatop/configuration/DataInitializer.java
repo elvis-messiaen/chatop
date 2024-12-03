@@ -27,10 +27,6 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class DataInitializer {
-
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-
     @Autowired
     private RoleService roleService;
 
@@ -98,10 +94,7 @@ public class DataInitializer {
         List<Role> roles = Arrays.asList(new Role("USER"), new Role("ADMIN"));
         roles.forEach(role -> {
             if (!roleRepository.existsByName(role.getName())) {
-                logger.info("Saving role: " + role.getName());
                 roleRepository.save(role);
-            } else {
-                logger.info("Role already exists: " + role.getName());
             }
         });
     }
@@ -131,7 +124,6 @@ public class DataInitializer {
             if (!roles.equals(user.getRole())) {
                 user.setRole(roles);
                 userRepository.save(user);
-                logger.info("Assigned roles to user: " + user.getUsername() + " - " + roles);
             }
         }
     }

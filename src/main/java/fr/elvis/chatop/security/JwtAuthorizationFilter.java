@@ -36,15 +36,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             String username = jwtService.getUsername(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (userDetails != null) {
-                System.out.println("User details found for username: " + username);
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
-                System.out.println("User details not found for username: " + username);
             }
-        } else {
-            System.out.println("JWT Token is not valid or not resolved.");
         }
         filterChain.doFilter(request, response);
     }

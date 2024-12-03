@@ -7,8 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Requête de connexion")
 public class LoginRequest {
-    private static final Logger logger = LoggerFactory.getLogger(LoginRequest.class);
-
     @Schema(description = "Nom d'utilisateur", example = "user1")
     @NotBlank
     private String username;
@@ -17,7 +15,6 @@ public class LoginRequest {
     @NotBlank
     private String password;
 
-    // Getters et setters
     public String getUsername() {
         return username;
     }

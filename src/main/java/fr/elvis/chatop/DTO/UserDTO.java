@@ -1,16 +1,30 @@
 package fr.elvis.chatop.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.Set;
 
 public class UserDTO {
     private int id;
+
+    @JsonProperty("name")
     private String username;
+
     private String email;
+
+    @JsonProperty("password")
     private String password;
-    private Set<RoleDTO> role;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private Date updatedAt;
+
+    private Set<RoleDTO> role;
     private Set<RentalDTO> rentals;
     private Set<MessageDTO> messages;
 
@@ -28,6 +42,7 @@ public class UserDTO {
         this.messages = messages;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -60,14 +75,6 @@ public class UserDTO {
         this.password = password;
     }
 
-    public Set<RoleDTO> getRole() {
-        return role;
-    }
-
-    public void setRole(Set<RoleDTO> role) {
-        this.role = role;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -82,6 +89,14 @@ public class UserDTO {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Set<RoleDTO> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<RoleDTO> role) {
+        this.role = role;
     }
 
     public Set<RentalDTO> getRentals() {

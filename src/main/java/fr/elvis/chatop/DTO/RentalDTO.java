@@ -1,5 +1,7 @@
 package fr.elvis.chatop.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class RentalDTO {
@@ -9,12 +11,21 @@ public class RentalDTO {
     private double price;
     private String picture;
     private String description;
+
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private Date createdAt;
+
+    @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private Date updatedAt;
+
+    @JsonProperty("proprietaire_id")
+    private int proprietaireId;
 
     public RentalDTO() {}
 
-    public RentalDTO(int id, String name, double surface, double price, String picture, String description, Date createdAt, Date updatedAt) {
+    public RentalDTO(int id, String name, double surface, double price, String picture, String description, Date createdAt, Date updatedAt, int proprietaireId) {
         this.id = id;
         this.name = name;
         this.surface = surface;
@@ -23,24 +34,10 @@ public class RentalDTO {
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.proprietaireId = proprietaireId;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -57,12 +54,12 @@ public class RentalDTO {
         this.name = name;
     }
 
-    public String getPicture() {
-        return picture;
+    public double getSurface() {
+        return surface;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setSurface(double surface) {
+        this.surface = surface;
     }
 
     public double getPrice() {
@@ -73,12 +70,28 @@ public class RentalDTO {
         this.price = price;
     }
 
-    public double getSurface() {
-        return surface;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setSurface(double surface) {
-        this.surface = surface;
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Date getUpdatedAt() {
@@ -87,5 +100,13 @@ public class RentalDTO {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public int getProprietaireId() {
+        return proprietaireId;
+    }
+
+    public void setProprietaireId(int proprietaireId) {
+        this.proprietaireId = proprietaireId;
     }
 }

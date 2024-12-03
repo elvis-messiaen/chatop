@@ -9,4 +9,10 @@ public class AuthDTO {
 
     public record RegisterRequest(String username, String password, String email) {
     }
+
+    public record TokenResponse(String token) {
+    }
+
+    public record ResponseDTO(String message, String token) {
+    }
 }

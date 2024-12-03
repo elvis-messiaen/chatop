@@ -2,7 +2,6 @@ package fr.elvis.chatop.servicies;
 
 import fr.elvis.chatop.DTO.MessageDTO;
 import fr.elvis.chatop.entities.MessagesEntity;
-
 import fr.elvis.chatop.entities.Rental;
 import fr.elvis.chatop.repository.MessagesRepository;
 import fr.elvis.chatop.repository.RentalRepository;
@@ -59,13 +58,16 @@ public class MessagesService {
         }
     }
 
-
-
     public void deleteMessage(int id) {
         if (messageRepository.existsById(id)) {
             messageRepository.deleteById(id);
         } else {
             throw new RuntimeException("Message not found");
         }
+    }
+
+    public void sendMessage(MessageDTO messageDTO) {
+        MessagesEntity messageEntity = modelMapper.map(messageDTO, MessagesEntity.class);
+        messageRepository.save(messageEntity);
     }
 }
