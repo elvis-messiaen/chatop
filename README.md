@@ -66,6 +66,13 @@ mvn install
 ## Lancer l'application
 mvn spring-boot:run 
 
+## Génération Automatique des Tables
+
+Les tables de la base de données sont générées automatiquement lors du démarrage de l'application. Cette fonctionnalité est activée par la configuration de la propriété suivante dans le fichier `application.properties` :
+
+```properties
+spring.jpa.hibernate.ddl-auto=update
+
 Documentation de l'API
 Vous pouvez consulter la documentation de l'API via Swagger à l'adresse suivante :
 http://localhost:8080/swagger-ui/swagger-ui/index.html#

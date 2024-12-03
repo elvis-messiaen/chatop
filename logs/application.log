@@ -1773,3 +1773,14 @@
 2024-12-03T10:58:37.154+01:00 DEBUG 540 --- [chatop] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json] and supported [text/plain, */*, application/json, application/*+json]
 2024-12-03T10:58:37.154+01:00 DEBUG 540 --- [chatop] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["{}"]
 2024-12-03T10:58:37.155+01:00 DEBUG 540 --- [chatop] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2024-12-03T12:20:02.815+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m27s890ms).
+2024-12-03T12:21:47.827+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m45s19ms).
+2024-12-03T12:24:45.604+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m16s933ms).
+2024-12-03T12:27:30.978+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m45s375ms).
+2024-12-03T12:29:58.771+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m13s85ms).
+2024-12-03T12:32:59.979+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m31s192ms).
+2024-12-03T12:36:25.209+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m25s229ms).
+2024-12-03T12:38:52.813+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m57s566ms).
+2024-12-03T12:43:40.578+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m17s754ms).
+2024-12-03T12:44:31.809+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=51s231ms).
+2024-12-03T12:49:38.273+01:00  WARN 540 --- [chatop] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m36s452ms).
