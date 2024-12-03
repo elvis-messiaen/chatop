@@ -13,6 +13,41 @@ La clé de déchiffrement vous sera fournie séparément par l'administrateur du
 
    openssl enc -d -aes-256-cbc -pbkdf2 -in .env.encrypted -out .env -k "VOTRE_CLE_DE_DECHIFFREMENT" -md sha256
 
+
+### Comment procéder a la protection de vos données sensibles
+# Gestion des fichiers `.env` dans votre projet
+### 2. Chiffrer le fichier `.env
+Vous pouvez conserver le fichier .env.example et modiffier en .env
+1. Dans le terminal, exécutez la commande suivante pour chiffrer le fichier `.env` :
+
+   openssl enc -aes-256-cbc -pbkdf2 -in .env -out .env.encrypted -k "VOTRE_CLE_DE_DECHIFFREMENT" -md sha256
+2. Ajoutez le fichier `.env.encrypted` dans votre dépôt Git.
+
+## Pourquoi ne faut-il pas pousser le fichier `.env` ?
+Le fichier `.env` contient des informations sensibles telles que des clés API, 
+des identifiants de base de données, et d'autres variables d'environnement cruciales. 
+Pour des raisons de sécurité, il est impératif de ne pas inclure ce fichier dans votre dépôt Git.
+
+## Étapes à suivre
+### 1. Ajouter le fichier `.env` dans `.gitignore`
+
+Pour s'assurer que le fichier `.env` n'est pas poussé dans le dépôt, ajoutez-le dans votre fichier `.gitignore`.
+# Fichier .gitignore
+.env
+
+###dechifrer le fichier .env.encrypted
+### Étape 1 : Obtenez la Clé de Déchiffrement
+- L'administrateur du projet vous fournira une clé de déchiffrement.
+- **IMPORTANT** : Conservez cette clé en sécurité, car elle sera nécessaire pour accéder au fichier `.env.encrypted`.
+
+# dans le terminal de votre projet sur votre ide
+openssl enc -d -aes-256-cbc -pbkdf2 -in .env.encrypted -out .env -k "VOTRE_CLE_DE_DECHIFFREMENT" -md sha256
+Vous pouvez maintenant accéder aux variables d'environnement enregistrées dans le fichier `.env`.
+# remplacer les valeurs dans le propoerties avec les valeurs de votre fichier .env
+
+Vous pouvez maintenant lancé votre application
+
+
 ### Propriétés Spring
 
 Installation
@@ -72,6 +107,8 @@ Les tables de la base de données sont générées automatiquement lors du déma
 
 ```properties
 spring.jpa.hibernate.ddl-auto=update
+
+
 
 Documentation de l'API
 Vous pouvez consulter la documentation de l'API via Swagger à l'adresse suivante :
